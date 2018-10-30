@@ -61,17 +61,18 @@ export default {
             this.editIndex = null;
         },
         receiveEdits: async function (user) {
-            console.log('saving');
             if(this.editIndex === -1){
                 let data = JSON.stringify(user);
                 try {
-                    let response = await this.$http.put('/api/SampleData/AddUser', data, {
+                    await this.$http.put('/api/SampleData/AddUser', data, {
                         headers:{
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
                         }
                     })
+
                     this.users.push(user);
+
                 } catch (error) {
                     console.log(error)
                 }
@@ -79,12 +80,13 @@ export default {
             else{
                 let data = JSON.stringify(user);
                 try {
-                    let response = await this.$http.put('/api/SampleData/SaveUser', data, {
+                    await this.$http.put('/api/SampleData/SaveUser', data, {
                         headers:{
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
                         }
                     })
+
                     this.users[this.editIndex] = user;
                     
                 } catch (error) {
@@ -100,7 +102,6 @@ export default {
         // TypeScript can also transpile async/await down to ES5
         try {
             let response = await this.$http.get('/api/SampleData/Users')
-            console.log(response.data);
             this.users = response.data;
         } catch (error) {
             console.log(error)

@@ -1,5 +1,13 @@
 {
     "include": [
       "./ClientApp/**/*"
-    ]
+    ],
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+          "components/*": [
+              "ClientApp/components/*"
+          ]
+      }
+  }
 }

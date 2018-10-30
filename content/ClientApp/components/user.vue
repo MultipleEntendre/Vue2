@@ -20,7 +20,6 @@
             <button type="button" @click="emitChanges">Save Changes</button>
             <button type="button" @click="cancelChanges">Cancel</button>
         </div>
-
     </div>
 </template>
 

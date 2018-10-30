@@ -39,7 +39,7 @@ export default {
         cancelChanges: function () {
             this.$emit('cancelChange');
         }
-    },
+    }
 
 }
 </script>

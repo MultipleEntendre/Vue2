@@ -36,7 +36,6 @@
 <script>
 import User from './user'
 
-
 export default {
     components:{
         "user": User
@@ -63,9 +62,8 @@ export default {
         },
         receiveEdits: async function (user) {
             console.log('saving');
-            if(this.editIndex === -1)
-            {
-                var data = JSON.stringify(user);
+            if(this.editIndex === -1){
+                let data = JSON.stringify(user);
                 try {
                     let response = await this.$http.put('/api/SampleData/AddUser', data, {
                         headers:{
@@ -79,7 +77,7 @@ export default {
                 }
             }
             else{
-                var data = JSON.stringify(user);
+                let data = JSON.stringify(user);
                 try {
                     let response = await this.$http.put('/api/SampleData/SaveUser', data, {
                         headers:{
@@ -108,7 +106,7 @@ export default {
             console.log(error)
         }
         // Old promise-based approach
-        //this.$http
+        // this.$http
         //    .get('/api/SampleData/WeatherForecasts')
         //    .then(response => {
         //        console.log(response.data)

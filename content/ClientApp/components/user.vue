@@ -4,15 +4,15 @@
             <table>
                 <tr>
                     <td>Name:</td>
-                    <td><input v-model="user.name" /></td>
+                    <td><input v-model="initUser.name" /></td>
                 </tr>
                 <tr>
                     <td>Age:</td>
-                    <td><input v-model="user.age" /></td>
+                    <td><input v-model="initUser.age" /></td>
                 </tr>
                 <tr>
                     <td>Address:</td>
-                    <td><input v-model="user.address" /></td>
+                    <td><input v-model="initUser.address" /></td>
                 </tr>
             </table>
         </div>
@@ -26,19 +26,15 @@
 <script>
 export default {
     props:['initUser'],
-    data() {
-        return {
-            user: this.initUser
-        }
-    },
     methods: {
         emitChanges: function(){
-            this.$emit('userChange', this.user);
+            this.$emit('userChange', this.initUser);
         },
         cancelChanges: function () {
             this.$emit('cancelChange');
         }
     }
+
 
 }
 </script>

@@ -8,28 +8,29 @@
             <p><em>Loading...</em></p>
             <h1><icon icon="spinner" pulse/></h1>            
         </div>
-
-        <table class="table" v-if="users">
-            <thead  class="bg-dark text-white">
-                <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Address</th>
-                    <th><a><icon icon="plus" v-on:click="addUser"></icon></a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr :class="index % 2 == 0 ? 'bg-white' : 'bg-light'" v-for="(item, index) in users" :key="item.id">
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.age }}</td>
-                    <td>{{ item.address }}</td>
-                    <td><a><icon icon="edit" v-on:click="editUser(item, index)"></icon></a></td>
-                </tr>
-            </tbody>
-        </table>
-        <div v-if="dude">
-            <user v-on:userChange="receiveEdits" v-on:cancelChange="cancelEdits" v-bind:initUser="dude"></user>
-        </div>
+        <transition name="slide-fade">
+            <table class="table" v-if="users">
+                <thead  class="bg-dark text-white">
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Address</th>
+                        <th><a><icon icon="plus" v-on:click="addUser"></icon></a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr :class="index % 2 == 0 ? 'bg-white' : 'bg-light'" v-for="(item, index) in users" :key="item.id">
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.age }}</td>
+                        <td>{{ item.address }}</td>
+                        <td><a><icon icon="edit" v-on:click="editUser(item, index)"></icon></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </transition>
+        <transition name="slide-fade">
+            <user v-if="dude" v-on:userChange="receiveEdits" v-on:cancelChange="cancelEdits" v-bind:initUser="dude"></user>
+        </transition>
     </div>
 </template>
 
@@ -49,7 +50,7 @@ export default {
     },
     methods: {
         editUser: function(item, index){
-            this.dude = Object.assign({}, item);
+            this.dude = item;
             this.editIndex = index;
         },
         addUser: function(){
@@ -64,14 +65,14 @@ export default {
             if(this.editIndex === -1){
                 let data = JSON.stringify(user);
                 try {
-                    await this.$http.put('/api/SampleData/AddUser', data, {
+                    let response = await this.$http.post('/api/SampleData/AddUser', data, {
                         headers:{
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
                         }
                     })
 
-                    this.users.push(user);
+                    this.users.push(response.data);
 
                 } catch (error) {
                     console.log(error)
@@ -80,14 +81,14 @@ export default {
             else{
                 let data = JSON.stringify(user);
                 try {
-                    await this.$http.put('/api/SampleData/SaveUser', data, {
+                    let response = await this.$http.put('/api/SampleData/SaveUser', data, {
                         headers:{
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
                         }
                     })
 
-                    this.users[this.editIndex] = user;
+                    this.users[this.editIndex] = response.data;
                     
                 } catch (error) {
                     console.log(error)
@@ -118,5 +119,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s ease-out;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+
 </style>

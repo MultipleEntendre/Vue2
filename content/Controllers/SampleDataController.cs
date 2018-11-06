@@ -42,7 +42,6 @@ namespace Vue2Spa.Controllers
         [HttpPut("[action]")]
         public User SaveUser([FromBody]User user)
         {
-
             using (BloggingContext db = new BloggingContext())
             {
                 var mod = db.User.First(x => x.ID == user.ID);
@@ -55,10 +54,9 @@ namespace Vue2Spa.Controllers
             }
         }
 
-        [HttpPut("[action]")]
+        [HttpPost("[action]")]
         public User AddUser([FromBody]User user)
         {
-
             using (BloggingContext db = new BloggingContext())
             {
                 db.User.Add(user);
